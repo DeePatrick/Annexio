@@ -1,0 +1,18 @@
+﻿@inject IJSRuntime js
+@inject ICountryRepository countryRepo
+
+<div class="countries-container">
+    <GenericList List="Countries">
+        <ElementTemplate Context="country">
+            <IndividualCountry Country="country" @key="country.Name"/>
+        </ElementTemplate>
+    </GenericList>
+</div>
+
+
+@code {
+    [Parameter] public List<Country> Countries { get; set; }  
+}
+
+
+
