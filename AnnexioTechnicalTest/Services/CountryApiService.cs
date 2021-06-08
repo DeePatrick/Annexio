@@ -22,7 +22,10 @@ namespace AnnexioTechnicalTest.Services
         {
             var url = string.Format("/rest/v2/all");
             var result = new List<Country>();
+
             var response = await client.GetAsync(url);
+
+
             if (response.IsSuccessStatusCode)
             {
                 var stringResponse = await response.Content.ReadAsStringAsync();
@@ -59,16 +62,16 @@ namespace AnnexioTechnicalTest.Services
             return result;
         }
 
-        public async Task<List<Region>> GetRegionDetail(string regioncode)
+        public async Task<List<RegionModel>> GetRegionDetail(string regioncode)
         {
             var url = string.Format("/rest/v2/region/{0}", regioncode);
-            var result = new List<Region>();
+            var result = new List<RegionModel>();
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
                 var stringResponse = await response.Content.ReadAsStringAsync();
 
-                result = JsonSerializer.Deserialize<List<Region>>(stringResponse,
+                result = JsonSerializer.Deserialize<List<RegionModel>>(stringResponse,
                     new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             }
             else
@@ -79,16 +82,16 @@ namespace AnnexioTechnicalTest.Services
             return result;
         }
 
-        public async Task<List<SubRegion>> GetSubregionDetail(string subregioncode)
+        public async Task<List<SubRegionModel>> GetSubregionDetail(string subregioncode)
         {
             var url = string.Format("/rest/v2/regionalbloc/{0}", subregioncode);
-            var result = new List<SubRegion>();
+            var result = new List<SubRegionModel>();
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
                 var stringResponse = await response.Content.ReadAsStringAsync();
 
-                result = JsonSerializer.Deserialize<List<SubRegion>>(stringResponse,
+                result = JsonSerializer.Deserialize<List<SubRegionModel>>(stringResponse,
                     new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             }
             else

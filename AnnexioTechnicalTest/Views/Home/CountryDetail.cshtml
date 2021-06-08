@@ -10,7 +10,7 @@
     var countryName = Model.Select(x => x.Name).FirstOrDefault().ToString();
 }
 
-<h4 class="display-4">@countryName</h4>
+<h4 >@countryName</h4>
 
 
 <table class="table table-bordered table-striped table-sm">
@@ -73,17 +73,10 @@
                     <ul>
                         @foreach (var innerItem in @item.Borders)
                         {
-                            <li>@innerItem</li>
+                            <li>@Html.ActionLink(@innerItem, "Borders", new { Name = @innerItem })</li>
                         }
                     </ul>
                 </td>
-
-
-                @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>*@
             </tr>
         }
     </tbody>

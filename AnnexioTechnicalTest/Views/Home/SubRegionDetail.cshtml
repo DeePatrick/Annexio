@@ -1,34 +1,59 @@
-﻿@model IEnumerable<AnnexioTechnicalTest.Models.SubRegion>
+﻿@model IEnumerable<AnnexioTechnicalTest.Models.SubRegionModel>
 
 @{
     ViewData["Title"] = "SubRegionDetail";
 }
 
-<h1>SubRegionDetail</h1>
+@{
+    var subregionName = Model.Select(x => x.Subregion).FirstOrDefault().ToString();
+    var totalPopulation = Model.Sum(x => x.Population);
+}
+
+<h4>@subregionName<small> ( Sub region )</small></h4>
 
 
-<table class="table">
+
+
+<table class="table table-bordered table-striped table-sm">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
+            <th>Sub Region</th>
+
+            <th class="align-right">
                 @Html.DisplayNameFor(model => model.Population)
             </th>
-            @*<th></th>*@
+            <th>
+                Region
+            </th>
+            <th>
+                Countries
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Population)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subregion)
+                </td>
+                <td class="align-right">
+                    @Html.DisplayFor(modelItem => item.Population)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+            </tr>
+        }
+
+        <tr style="background-color:darkgrey">
+            <td>Total: </td>
+            <td class="align-right"><strong>  @totalPopulation</strong></td>
+            <td></td>
+            <td></td>
         </tr>
-}
     </tbody>
 </table>

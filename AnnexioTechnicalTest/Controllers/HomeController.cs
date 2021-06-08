@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AnnexioTechnicalTest.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using AnnexioTechnicalTest.Helpers;
 
 namespace AnnexioTechnicalTest.Controllers
 {
@@ -20,14 +21,65 @@ namespace AnnexioTechnicalTest.Controllers
             _countryApiService = countryApiService;
         }
 
-        public async Task<IActionResult> Index()
+
+        public async Task<ActionResult<List<Country>>> Index(FilterCountries filterCountries)
+        //public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int pageNumber)
         {
+            ViewData["CurrentSort"] = filterCountries.SortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(filterCountries.SortOrder) ? "name_desc" : "";
+            ViewData["RegionSortParm"] = filterCountries.SortOrder == "Region" ? "region_desc" : "Region";
+           
+
+            if (filterCountries.SearchString != null)
+            {
+                filterCountries.Page = 1;
+            }
+            else
+            {
+                filterCountries.SearchString = filterCountries.CurrentFilter;
+            }
+
+            ViewData["CurrentFilter"] = filterCountries.SearchString;
+
             List<Country> countries = new List<Country>();
             countries = await _countryApiService.GetCountries();
-            return View(countries);
+            var countriesQueryable = countries.AsQueryable();
+
+            var sortedItem = from s in countriesQueryable
+                             select s;
+            if (!String.IsNullOrEmpty(filterCountries.SearchString))
+            {
+                sortedItem = sortedItem.Where(s => s.Name.Contains(filterCountries.SearchString)
+                                       || s.Region.Contains(filterCountries.SearchString)
+                                       || s.Subregion.Contains(filterCountries.SearchString));
+            }
+
+            switch (filterCountries.SortOrder)
+            {
+                case "name_desc":
+                    sortedItem = sortedItem.OrderByDescending(s => s.Name).AsQueryable();
+                    break;
+                case "Region":
+                    sortedItem = sortedItem.OrderBy(s => s.Region).AsQueryable();
+                    break;
+                case "region_desc":
+                    sortedItem = sortedItem.OrderByDescending(s => s.Region).AsQueryable();
+                    break;
+                default:
+                    sortedItem = sortedItem.OrderBy(s => s.Name).AsQueryable();
+                    break;
+            }
+
+
+            int pageSize = 3;
+            int? pageNumber = filterCountries.Page;
+
+            return View(await PaginatedList<Country>.CreateAsync(sortedItem, pageNumber ?? 1, pageSize));
+
         }
 
-        public async Task<IActionResult> CountryDetail (string Name)
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> CountryDetail(string Name)
         {
             List<CountryDetailModel> countryDetails = new List<CountryDetailModel>();
 
@@ -38,7 +90,7 @@ namespace AnnexioTechnicalTest.Controllers
                     countryDetails = await _countryApiService.GetCountryDetail(Name);
                 }
                 catch (Exception)
-                {              
+                {
                     throw;
                 }
             }
@@ -46,9 +98,10 @@ namespace AnnexioTechnicalTest.Controllers
             return View(countryDetails);
         }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> RegionDetail(string Name)
         {
-            List<Region> regionDetails = new List<Region>();
+            List<RegionModel> regionDetails = new List<RegionModel>();
 
             if (!string.IsNullOrEmpty(Name))
             {
@@ -58,9 +111,11 @@ namespace AnnexioTechnicalTest.Controllers
             return View(regionDetails);
         }
 
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> SubRegionDetail(string Name)
         {
-            List<SubRegion> subregionDetails = new List<SubRegion>();
+            List<SubRegionModel> subregionDetails = new List<SubRegionModel>();
 
             if (!string.IsNullOrEmpty(Name))
             {

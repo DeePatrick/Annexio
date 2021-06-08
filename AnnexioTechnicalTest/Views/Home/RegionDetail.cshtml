@@ -1,13 +1,21 @@
-﻿@model IEnumerable<AnnexioTechnicalTest.Models.Region>
+﻿@model IEnumerable<AnnexioTechnicalTest.Models.RegionModel>
 
 @{
     ViewData["Title"] = "RegionDetail";
 }
 
-<h1>RegionDetail</h1>
+
+@{
+    var regionName = Model.Select(x => x.Region).FirstOrDefault().ToString();
+    var totalPopulation = Model.Sum(x => x.Population);
+}
 
 
-<table class="table">
+<h4 >@regionName <small> ( Region )</small></h4>
+
+
+
+<table class="table table-bordered table-striped table-sm">
     <thead>
         <tr>
             <th>
@@ -16,24 +24,41 @@
             <th>
                 @Html.DisplayNameFor(model => model.Population)
             </th>
-            @*<th></th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subregion)
+            </th>
+
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Population)
-            </td>
-            @*<td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>*@
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Population)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subregion)
+                </td>
+
+            </tr>
+        }
+
+        <tr style="background-color:darkgrey">
+            <td>Total: </td>
+            <td class="align-right"><strong>  @totalPopulation</strong></td>
+            <td></td>
+            <td></td>
         </tr>
-}
     </tbody>
 </table>
+
