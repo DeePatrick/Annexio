@@ -7,5 +7,8 @@ namespace AnnexioTechnicalTest.Services
     public interface ICountryApiService
     {
         Task<List<Country>> GetCountries();
+        Task<CountryDetailModel> GetCountryDetail(string countryCode);
+        Task<List<Region>> GetRegionDetail(string regioncode);
+        Task<List<SubRegion>> GetSubregionDetail(string subregioncode);
     }
 }

@@ -1,45 +1,42 @@
-﻿@model List<Country>
+﻿@model IEnumerable<AnnexioTechnicalTest.Models.Country>
+
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Index";
 }
 
-<div>
-    <h3 class="display-4">Countries Info</h3>
-    @*<center>
-        <form asp-controller="Home" asp-action="Index">
-            <table>
-                <tr>
-                    <td>Country Code: </td>
-                    <td><input type="text" id="txtCountryCode" name="CountryCode" /></td>
-                    <td>Year: </td>
-                    <td><input type="text" id="txtYear" name="Year" /></td>
-                    <td><input type="submit" value="Submit" /></td>
-                </tr>
-            </table>
-            <hr />
-        </form>
-    </center>*@
-    @if (Model != null && Model.Count > 0)
-    {
-        <table class="table table-bordered table-striped table-sm">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Region</th>
-                    <th>SubRegion</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Region)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Subregion)</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
+<h3 class="display-4">Countries Info</h3>
 
-</div>
+
+<table class="table table-bordered table-striped table-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subregion)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            string subregionBloc = "";
+            @foreach (var innerItem in item.RegionalBlocs)
+            {
+                subregionBloc = @innerItem.Acronym;
+            }
+            <tr>
+                <td>@Html.ActionLink(@item.Name, "CountryDetail", new { Name = item.Name }) </td>
+                <td>@Html.ActionLink(@item.Region, "RegionDetail", new { Name = item.Region }) </td>
+                <td>@Html.ActionLink(@item.Subregion , "SubRegionDetail", new { Name = subregionBloc }) </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+

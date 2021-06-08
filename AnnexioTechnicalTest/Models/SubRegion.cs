@@ -9,7 +9,7 @@ namespace AnnexioTechnicalTest.Models
 
         public int Population { get; set; }
 
-        public List<Country> Countries { get; set; }
+        //public List<Country> Countries { get; set; }
 
     }
 }

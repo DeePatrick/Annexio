@@ -37,7 +37,73 @@ namespace AnnexioTechnicalTest.Services
 
             return result;
         }
+
+
+        public async Task<CountryDetailModel> GetCountryDetail(string countryCode)
+        {
+            var url = string.Format("/rest/v2/name/{0}", countryCode);
+            var result = new CountryDetailModel();
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+
+                result = JsonSerializer.Deserialize<CountryDetailModel>(stringResponse,
+                    new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            }
+            else
+            {
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
+
+            return result;
+        }
+
+        public async Task<List<Region>> GetRegionDetail(string regioncode)
+        {
+            var url = string.Format("/rest/v2/region/{0}", regioncode);
+            var result = new List<Region>();
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+
+                result = JsonSerializer.Deserialize<List<Region>>(stringResponse,
+                    new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            }
+            else
+            {
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
+
+            return result;
+        }
+
+        public async Task<List<SubRegion>> GetSubregionDetail(string subregioncode)
+        {
+            var url = string.Format("/rest/v2/regionalbloc/{0}", subregioncode);
+            var result = new List<SubRegion>();
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var stringResponse = await response.Content.ReadAsStringAsync();
+
+                result = JsonSerializer.Deserialize<List<SubRegion>>(stringResponse,
+                    new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            }
+            else
+            {
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
+
+            return result;
+        }
     }
 }
+
+
+
+
+
 
 

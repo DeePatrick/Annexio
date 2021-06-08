@@ -26,6 +26,62 @@ namespace AnnexioTechnicalTest.Controllers
             countries = await _countryApiService.GetCountries();
             return View(countries);
         }
+
+        public async Task<IActionResult> CountryDetail(string Name)
+        {
+            CountryDetailModel countryDetails = new CountryDetailModel();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                try
+                {
+                    countryDetails = await _countryApiService.GetCountryDetail(Name);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    //throw;
+                }
+            }
+
+            return View(countryDetails);
+        }
+
+        public async Task<IActionResult> RegionDetail(string Name)
+        {
+            List<Region> regionDetails = new List<Region>();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                try
+                {
+                    regionDetails = await _countryApiService.GetRegionDetail(Name);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+            }
+
+            return View(regionDetails);
+        }
+
+        public async Task<IActionResult> SubRegionDetail(string Name)
+        {
+            List<SubRegion> subregionDetails = new List<SubRegion>();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                subregionDetails = await _countryApiService.GetSubregionDetail(Name);
+            }
+
+            return View(subregionDetails);
+        }
     }
 }
+
+
+
+
 

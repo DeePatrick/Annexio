@@ -10,7 +10,7 @@ namespace AnnexioTechnicalTest.Models
         public string Name { get; set; }
         public string Region { get; set; }
         public string Subregion { get; set; }
-
+        public List<RegionalBloc> RegionalBlocs { get; set; }
     }
 }
 
