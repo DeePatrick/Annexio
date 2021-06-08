@@ -1,29 +1,33 @@
-﻿using System;
+﻿using AnnexioTechnicalTest.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AnnexioTechnicalTest.Services
 {
-    public class HolidaysApiService : IHolidaysApiService
+    public class CountryApiService : ICountryApiService
     {
         private readonly HttpClient client;
 
-        public HolidaysApiService(IHttpClientFactory clientFactory)
+        public CountryApiService(IHttpClientFactory clientFactory)
         {
-            client = clientFactory.CreateClient("PublicHolidaysApi");
+            client = clientFactory.CreateClient("CountryInfoApi");
         }
 
-        public async Task<List<HolidayModel>> GetHolidays(string countryCode, int year)
+        public async Task<List<Country>> GetCountries()
         {
-            var url = string.Format("/api/v2/PublicHolidays/{0}/{1}", year, countryCode);
-            var result = new List<HolidayModel>();
+            var url = string.Format("/rest/v2/all");
+            var result = new List<Country>();
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
                 var stringResponse = await response.Content.ReadAsStringAsync();
 
-                result = JsonSerializer.Deserialize<List<HolidayModel>>(stringResponse,
+                result = JsonSerializer.Deserialize<List<Country>>(stringResponse,
                     new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             }
             else
@@ -35,3 +39,5 @@ namespace AnnexioTechnicalTest.Services
         }
     }
 }
+
+
