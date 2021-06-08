@@ -38,6 +38,7 @@ namespace AnnexioTechnicalTest
             {
                 app.UseDeveloperExceptionPage();
             }
+
             else
             {
                 app.UseExceptionHandler("/Home/Error");

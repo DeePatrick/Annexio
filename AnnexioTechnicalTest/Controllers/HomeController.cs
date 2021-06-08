@@ -22,24 +22,24 @@ namespace AnnexioTechnicalTest.Controllers
         }
 
 
-        public async Task<ActionResult<List<Country>>> Index(FilterCountries filterCountries)
-        //public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int pageNumber)
+       
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
-            ViewData["CurrentSort"] = filterCountries.SortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(filterCountries.SortOrder) ? "name_desc" : "";
-            ViewData["RegionSortParm"] = filterCountries.SortOrder == "Region" ? "region_desc" : "Region";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["RegionSortParm"] = sortOrder == "Region" ? "region_desc" : "Region";
            
 
-            if (filterCountries.SearchString != null)
+            if (searchString != null)
             {
-                filterCountries.Page = 1;
+                pageNumber = 1;
             }
             else
             {
-                filterCountries.SearchString = filterCountries.CurrentFilter;
+                searchString = currentFilter;
             }
 
-            ViewData["CurrentFilter"] = filterCountries.SearchString;
+            ViewData["CurrentFilter"] = searchString;
 
             List<Country> countries = new List<Country>();
             countries = await _countryApiService.GetCountries();
@@ -47,14 +47,14 @@ namespace AnnexioTechnicalTest.Controllers
 
             var sortedItem = from s in countriesQueryable
                              select s;
-            if (!String.IsNullOrEmpty(filterCountries.SearchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                sortedItem = sortedItem.Where(s => s.Name.Contains(filterCountries.SearchString)
-                                       || s.Region.Contains(filterCountries.SearchString)
-                                       || s.Subregion.Contains(filterCountries.SearchString));
+                sortedItem = sortedItem.Where(s => s.Name.Contains(searchString)
+                                       || s.Region.Contains(searchString)
+                                       || s.Subregion.Contains(searchString));
             }
 
-            switch (filterCountries.SortOrder)
+            switch (sortOrder)
             {
                 case "name_desc":
                     sortedItem = sortedItem.OrderByDescending(s => s.Name).AsQueryable();
@@ -71,9 +71,7 @@ namespace AnnexioTechnicalTest.Controllers
             }
 
 
-            int pageSize = 3;
-            int? pageNumber = filterCountries.Page;
-
+            int pageSize = 5;
             return View(await PaginatedList<Country>.CreateAsync(sortedItem, pageNumber ?? 1, pageSize));
 
         }

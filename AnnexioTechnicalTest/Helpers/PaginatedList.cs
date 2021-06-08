@@ -38,7 +38,7 @@ namespace AnnexioTechnicalTest.Helpers
 
         public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int pageIndex, int pageSize)
         {
-            await Task.Delay(5);
+            await Task.Delay(0);
             var count = source.Count();
             var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
