@@ -27,9 +27,9 @@ namespace AnnexioTechnicalTest.Controllers
             return View(countries);
         }
 
-        public async Task<IActionResult> CountryDetail(string Name)
+        public async Task<IActionResult> CountryDetail (string Name)
         {
-            CountryDetailModel countryDetails = new CountryDetailModel();
+            List<CountryDetailModel> countryDetails = new List<CountryDetailModel>();
 
             if (!string.IsNullOrEmpty(Name))
             {
@@ -37,10 +37,9 @@ namespace AnnexioTechnicalTest.Controllers
                 {
                     countryDetails = await _countryApiService.GetCountryDetail(Name);
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    //throw;
+                catch (Exception)
+                {              
+                    throw;
                 }
             }
 
@@ -53,15 +52,7 @@ namespace AnnexioTechnicalTest.Controllers
 
             if (!string.IsNullOrEmpty(Name))
             {
-                try
-                {
-                    regionDetails = await _countryApiService.GetRegionDetail(Name);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    throw;
-                }
+                regionDetails = await _countryApiService.GetRegionDetail(Name);
             }
 
             return View(regionDetails);

@@ -39,17 +39,17 @@ namespace AnnexioTechnicalTest.Services
         }
 
 
-        public async Task<CountryDetailModel> GetCountryDetail(string countryCode)
+        public async Task<List<CountryDetailModel>> GetCountryDetail(string countryCode)
         {
             var url = string.Format("/rest/v2/name/{0}", countryCode);
-            var result = new CountryDetailModel();
+            var result = new List<CountryDetailModel>();
             var response = await client.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
-                var stringResponse = await response.Content.ReadAsStringAsync();
+                string stringResponse = await response.Content.ReadAsStringAsync();
 
-                result = JsonSerializer.Deserialize<CountryDetailModel>(stringResponse,
-                    new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+                result = JsonSerializer.Deserialize<List<CountryDetailModel>>(stringResponse,
+                 new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             }
             else
             {

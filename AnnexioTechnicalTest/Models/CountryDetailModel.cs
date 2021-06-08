@@ -11,10 +11,10 @@ namespace AnnexioTechnicalTest.Models
         public string Capital { get; set; }
         public int Population { get; set; }
 
-        //public List<Currency> Currencies { get; set; }
-        //public List<Language> Langauages{ get; set; }
+       public List<Currency> Currencies { get; set; }
+        public List<Language> Languages{ get; set; }
 
-        //public List<Country> NeighborCountries { get; set; }
+        public List<string> Borders { get; set; }
     }
 }
 
