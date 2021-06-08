@@ -21,10 +21,5 @@ namespace Annexio.Library.DTOs
             }
         }
 
-
-        public string Title { get; set; }
-        public int GenreId { get; set; }
-        public bool UpcomingReleases { get; set; }
-        public bool InTheatres { get; set; }
     }
 }

@@ -5,34 +5,33 @@ using System.Threading.Tasks;
 
 namespace AnnexioTechnicalTest.Services
 {
-    public class Client
+    public class HolidaysApiService : IHolidaysApiService
     {
-        private Uri baseAddress;
+        private readonly HttpClient client;
 
-        public Client(Uri baseAddress)
+        public HolidaysApiService(IHttpClientFactory clientFactory)
         {
-            this.baseAddress = baseAddress;
+            client = clientFactory.CreateClient("PublicHolidaysApi");
         }
 
-        public IEnumerable<Products> GetProductsFromCategory(int categoryId)
+        public async Task<List<HolidayModel>> GetHolidays(string countryCode, int year)
         {
-            return Get<IEnumerable<Product>>($"api/categories/{categoryId}/products");
-        }
-
-        public IEnumerable<Products> GetAllProducts()
-        {
-            return Get<IEnumerable<Product>>($"api/products");
-        }
-
-        private T Get<T>(string query)
-        {
-            using (var httpClient = new HttpClient())
+            var url = string.Format("/api/v2/PublicHolidays/{0}/{1}", year, countryCode);
+            var result = new List<HolidayModel>();
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
             {
-                httpClient.BaseAddress = baseAddress;
+                var stringResponse = await response.Content.ReadAsStringAsync();
 
-                var response = httpClient.Get(query).Result;
-                return response.Content.ReadAsAsync<T>().Result;
+                result = JsonSerializer.Deserialize<List<HolidayModel>>(stringResponse,
+                    new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
             }
+            else
+            {
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
+
+            return result;
         }
     }
 }

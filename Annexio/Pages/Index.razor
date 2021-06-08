@@ -16,8 +16,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        var model = await countryRepo.GetCountries();
-        Countries = model;
+        Countries = await countryRepo.GetCountries();
     }
 
 }
