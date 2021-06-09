@@ -1,11 +1,11 @@
-﻿@model IEnumerable<AnnexioTechnicalTest.Models.SubRegionModel>
+﻿@model IEnumerable<AnnexioTechnicalTest.Models.RegionModel>
 
 @{
     ViewData["Title"] = "SubRegionDetail";
 }
 
 @{
-    //var subregionName = Model.Select(x => x.Subregion).FirstOrDefault().ToString();
+    var subregionName = Model.Select(x => x.Subregion).FirstOrDefault().ToString();
     
     var totalPopulation = 0;
 
@@ -18,7 +18,7 @@
     }
 }
 
-@*<h4>@subregionName<small> ( Sub region )</small></h4>*@
+<h4>@subregionName<small> ( Sub region )</small></h4>
 
 
 
@@ -53,7 +53,7 @@
                     @Html.DisplayFor(modelItem => item.Region)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    @Html.ActionLink(@item.Name, "CountryDetail", new { Name = @item.Name })
                 </td>
             </tr>
         }

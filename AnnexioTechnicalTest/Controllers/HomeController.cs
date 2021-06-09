@@ -133,7 +133,24 @@ namespace AnnexioTechnicalTest.Controllers
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> SubRegionDetail(string Name)
+        public async Task<IActionResult> SubRegionDetail(string Region, string Subregion)
+        {
+            List<RegionModel> regionDetails = new List<RegionModel>();
+
+            if (!string.IsNullOrEmpty(Region))
+            {
+                regionDetails = await _countryApiService.GetRegionDetail(Region);
+            }
+
+            IEnumerable<RegionModel> result = regionDetails.Where(m => m.Subregion == Subregion);
+
+            return View(result);
+        }
+
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> RegionalBloc(string Name)
         {
             List<SubRegionModel> subregionDetails = new List<SubRegionModel>();
 

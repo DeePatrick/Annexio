@@ -42,12 +42,13 @@
             <tr>
                 <td>@Html.ActionLink(@item.Name, "CountryDetail", new { Name = item.Name }) </td>
                 <td>@Html.ActionLink(@item.Region, "RegionDetail", new { Name = item.Region }) </td>
-                <td>@Html.ActionLink(@item.Subregion, "SubRegionDetail", new { Name = subregionBloc }) </td>
+                <td>@Html.ActionLink(@item.Subregion, "SubRegionDetail", new { Region = item.Region, Subregion = @item.Subregion }) </td>
 
             </tr>
         }
     </tbody>
 </table>
+
 
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
