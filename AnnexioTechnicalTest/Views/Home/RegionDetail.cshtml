@@ -7,11 +7,20 @@
 
 @{
     var regionName = Model.Select(x => x.Region).FirstOrDefault().ToString();
-    var totalPopulation = Model.Sum(x => x.Population);
+    var totalPopulation = 0;
 }
 
 
-<h4 >@regionName <small> ( Region )</small></h4>
+@foreach (var num in @Model)
+{
+    if (num.Population > 0)
+    {
+        totalPopulation += num.Population;
+    }
+}
+
+
+<h4>@regionName <small> ( Region )</small></h4>
 
 
 
@@ -21,7 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>
+            <th class="align-right">
                 @Html.DisplayNameFor(model => model.Population)
             </th>
             <th>
@@ -36,21 +45,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Population)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Region)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subregion)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td class="align-right">
+                @Html.DisplayFor(modelItem => item.Population)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Region)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subregion)
+            </td>
 
-            </tr>
+        </tr>
         }
 
         <tr style="background-color:darkgrey">

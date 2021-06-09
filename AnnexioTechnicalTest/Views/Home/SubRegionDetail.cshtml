@@ -6,7 +6,16 @@
 
 @{
     //var subregionName = Model.Select(x => x.Subregion).FirstOrDefault().ToString();
-    var totalPopulation = Model.Sum(x => x.Population);
+    
+    var totalPopulation = 0;
+
+    @foreach(var num in @Model)
+    {
+        if(num.Population > 0)
+        {
+            totalPopulation += num.Population;
+        }
+    }
 }
 
 @*<h4>@subregionName<small> ( Sub region )</small></h4>*@
