@@ -6,6 +6,7 @@ namespace AnnexioTechnicalTest.Services
 {
     public interface ICountryApiService
     {
+        Task<CountryDetailModel> GetBorderCountryDetail(string countryCode);
         Task<List<Country>> GetCountries();
         Task<List<CountryDetailModel>> GetCountryDetail(string countryCode);
         Task<List<RegionModel>> GetRegionDetail(string regioncode);

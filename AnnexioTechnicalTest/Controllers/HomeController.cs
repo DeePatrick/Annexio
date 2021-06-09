@@ -97,6 +97,28 @@ namespace AnnexioTechnicalTest.Controllers
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public async Task<IActionResult> BorderCountryDetail(string Name)
+        {
+            CountryDetailModel countryDetails = new CountryDetailModel();
+
+            if (!string.IsNullOrEmpty(Name))
+            {
+                try
+                {
+                    countryDetails = await _countryApiService.GetBorderCountryDetail(Name);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction("CountryDetail", countryDetails);
+        }
+
+
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> RegionDetail(string Name)
         {
             List<RegionModel> regionDetails = new List<RegionModel>();

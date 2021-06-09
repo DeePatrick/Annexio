@@ -12,11 +12,12 @@ namespace AnnexioTechnicalTest.Models
         public int Population { get; set; }
 
        public List<Currency> Currencies { get; set; }
-        public List<Language> Languages{ get; set; }
+        public List<Language> Languages { get; set; }
 
         public List<string> Borders { get; set; }
     }
 }
+
 
 
 

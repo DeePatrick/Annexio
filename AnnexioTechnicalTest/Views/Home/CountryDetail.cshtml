@@ -62,19 +62,27 @@
                 </td>
                 <td>
                     <ul>
-                        @foreach (var innerItem in @item.Languages)
+                        @if (@item.Languages.Count > 0)
                         {
-                            <li>@innerItem.Name</li>
-                            <li>@innerItem.nativeName</li>
+                            @foreach (var innerItem in @item.Languages)
+                            {
+                                <li>@innerItem.Name</li>
+                                <li>@innerItem.NativeName</li>
+                            }
                         }
+
                     </ul>
                 </td>
                 <td>
                     <ul>
-                        @foreach (var innerItem in @item.Borders)
+                        @if (@item.Borders.Count > 0)
                         {
-                            <li>@Html.ActionLink(@innerItem, "Borders", new { Name = @innerItem })</li>
+                            @foreach (var innerItem in @item.Borders)
+                            {
+                                <li>@Html.ActionLink(@innerItem, "BorderCountryDetail", new { Name = @innerItem })</li>
+                            }
                         }
+
                     </ul>
                 </td>
             </tr>

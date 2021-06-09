@@ -62,6 +62,26 @@ namespace AnnexioTechnicalTest.Services
             return result;
         }
 
+        public async Task<CountryDetailModel> GetBorderCountryDetail(string countryCode)
+        {
+            var url = string.Format("/rest/v2/alpha/{0}", countryCode);
+            var result = new CountryDetailModel();
+            var response = await client.GetAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                string stringResponse = await response.Content.ReadAsStringAsync();
+
+                result = JsonSerializer.Deserialize<CountryDetailModel>(stringResponse,
+                 new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+            }
+            else
+            {
+                throw new HttpRequestException(response.ReasonPhrase);
+            }
+
+            return result;
+        }
+
         public async Task<List<RegionModel>> GetRegionDetail(string regioncode)
         {
             var url = string.Format("/rest/v2/region/{0}", regioncode);
