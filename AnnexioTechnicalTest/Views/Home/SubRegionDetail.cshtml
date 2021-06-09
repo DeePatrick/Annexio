@@ -5,11 +5,11 @@
 }
 
 @{
-    var subregionName = Model.Select(x => x.Subregion).FirstOrDefault().ToString();
+    //var subregionName = Model.Select(x => x.Subregion).FirstOrDefault().ToString();
     var totalPopulation = Model.Sum(x => x.Population);
 }
 
-<h4>@subregionName<small> ( Sub region )</small></h4>
+@*<h4>@subregionName<small> ( Sub region )</small></h4>*@
 
 
 

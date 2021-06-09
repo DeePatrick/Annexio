@@ -71,7 +71,7 @@ namespace AnnexioTechnicalTest.Controllers
             }
 
 
-            int pageSize = 5;
+            int pageSize = 10;
             return View(await PaginatedList<Country>.CreateAsync(sortedItem, pageNumber ?? 1, pageSize));
 
         }
