@@ -45,21 +45,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.ActionLink(@item.Name, "CountryDetail", new { Name = @item.Name })
-            </td>
-            <td class="align-right">
-                @Html.DisplayFor(modelItem => item.Population)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Region)
-            </td>
-            <td>
-                @Html.ActionLink(@item.Subregion, "SubRegionDetail", new { Name = @item.Subregion })
-            </td>
+            <tr>
+                <td>
+                    @Html.ActionLink(@item.Name, "CountryDetail", new { Name = @item.Name })
+                </td>
+                <td class="align-right">
+                    @Html.DisplayFor(modelItem => item.Population)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region)
+                </td>
+                <td>
+                    @Html.ActionLink(@item.Subregion, "SubRegionDetail", new { Region = item.Region, Subregion = @item.Subregion })
+                </td>
 
-        </tr>
+            </tr>
         }
 
         <tr style="background-color:darkgrey">
